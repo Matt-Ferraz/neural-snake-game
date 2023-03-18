@@ -5,7 +5,7 @@ from collections import deque
 from snakegame import AiSnakeGame, Direction, Point
 
 MAX_MEMORY = 200_000
-BATCH_SIZE = 1000
+BATCH_SIZE = 2000
 LR = 0.001
 
 class Agent:
@@ -64,11 +64,17 @@ class Agent:
 
 
   def remeber(self, state, action, reward, next_state, game_over):    
-    self.memory.append(state, action, reward, next_state, game_over) #popleft if overflows the max memory
+    self.memory.append((state, action, reward, next_state, game_over)) #popleft if overflows the max memory
   
   def train_long_memo(self):
-    pass
-  
+    if len(self.memory) > BATCH_SIZE:
+      mini_sample = random.sample(self.memory, BATCH_SIZE) # list of tuples
+    else: 
+      mini_sample = self.memory
+
+    states, actions, rewards, next_states, games_over = zip(*mini_sample)
+    self.trainer.train_step(states, actions, rewards, next_states, games_over)
+
   def train_short_memo(self, state, action, reward, next_state, game_over):
     self.trainer.train_step(state, action, reward, next_state, game_over)
   
