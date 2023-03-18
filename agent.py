@@ -14,7 +14,8 @@ class Agent:
     self.epsilon = 0 # randomness
     self.gamma = 0 # discount rate
     self.memory = deque(maxlen=MAX_MEMORY) # popleft()
-    # TODO: model,trainer
+    self.model = None # TODO
+    self.trainer = None # TODO
 
   def get_state(self, game):
     head = game.snake[0]
@@ -69,7 +70,7 @@ class Agent:
     pass
   
   def train_short_memo(self, state, action, reward, next_state, game_over):
-    pass
+    self.trainer.train_step(state, action, reward, next_state, game_over)
   
   def get_action(self, state):
     pass
