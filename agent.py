@@ -63,7 +63,7 @@ class Agent:
 
 
   def remeber(self, state, action, reward, next_state, game_over):    
-    pass
+    self.memory.append(state, action, reward, next_state, game_over) #popleft if overflows the max memory
   
   def train_long_memo(self):
     pass
