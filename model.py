@@ -43,12 +43,12 @@ class QTrainer:
       next_state = torch.unsqueeze(next_state, 0)
       action = torch.unsqueeze(action, 0)
       reward = torch.unsqueeze(reward, 0) 
-      game_over = (game_over, 0)
+      game_over = (game_over, )
 
     # 1: predicted q with current state
     pred = self.model(state)
 
-    target = prd.clone()
+    target = pred.clone()
     for i in range(len(game_over)):
       Q_new = reward[i]
       if not game_over[i]:
